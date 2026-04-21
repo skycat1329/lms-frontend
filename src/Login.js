@@ -1,85 +1,539 @@
-// 🔹 Importing useState hook from React
-// useState is used to store and manage data inside a component
 import { useState } from "react";
 
 function Login() {
-
-  // 🔹 STATE VARIABLES
-  // email → stores user's email input
-  // setEmail → function to update email
   const [email, setEmail] = useState("");
-
-  // password → stores user's password input
-  // setPassword → function to update password
   const [password, setPassword] = useState("");
 
+  const handleLogin = async () => {
+    const response = await fetch(
+      "https://www.gurukrupaeducation.com/api/student-login.php",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }
+    );
 
-  // 🔹 LOGIN FUNCTION (MAIN LOGIC)
-  // async because we are calling an API (fetch)
-const handleLogin = async () => {
-  const response = await fetch("https://www.gurukrupaeducation.com/api/student-login.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email, password })
-  });
+    const data = await response.json();
 
-  const data = await response.json();
+    if (data.success) {
+      localStorage.setItem("user", JSON.stringify(data));
+      window.location.href = "/dashboard";
+    } else {
+      alert(data.message);
+    }
+  };
 
-  if (data.success) {
-    // ✅ Save user
-    localStorage.setItem("user", JSON.stringify(data));
-
-    // ✅ Redirect
-    window.location.href = "/dashboard";
-  } else {
-    alert(data.message);
-  }
-};
-
-  // 🔹 UI SECTION (WHAT USER SEES)
   return (
-    <div>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Yatra+One&family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700&display=swap');
 
-      {/* Heading */}
-      <h2>Student Login</h2>
+        *, *::before, *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
 
-      {/* 🔸 EMAIL INPUT */}
-      <input
-        type="email"
-        placeholder="Enter Email"
+        :root {
+          --red: #c0392b;
+          --red-dark: #922b21;
+          --red-deep: #7b241c;
+          --red-light: #fdecea;
+          --red-mid: #e74c3c;
+          --red-soft: #fadbd8;
+          --white: #ffffff;
+          --off-white: #fdf8f8;
+          --border: #f5c6c2;
+          --text: #2c0a08;
+          --muted: #8b4443;
+          --bg: #fdf8f8;
+        }
 
-        // value binds input with state
-        value={email}
+        .login-page {
+          min-height: 100vh;
+          font-family: 'Nunito', sans-serif;
+          background:
+            radial-gradient(circle at 12% 18%, rgba(192, 57, 43, 0.16), transparent 28rem),
+            radial-gradient(circle at 85% 82%, rgba(231, 76, 60, 0.14), transparent 26rem),
+            var(--bg);
+          color: var(--text);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 28px;
+          overflow: hidden;
+          position: relative;
+        }
 
-        // onChange runs when user types
-        // e.target.value = current input value
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        .login-page::before {
+          content: 'ॐ';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-family: 'Yatra One', serif;
+          font-size: min(42vw, 460px);
+          color: rgba(146, 43, 33, 0.035);
+          line-height: 1;
+          pointer-events: none;
+        }
 
-      <br /><br />
+        .login-shell {
+          width: min(980px, 100%);
+          min-height: 610px;
+          display: grid;
+          grid-template-columns: 1.05fr 0.95fr;
+          background: var(--white);
+          border: 1.5px solid var(--border);
+          border-radius: 28px;
+          box-shadow: 0 26px 70px rgba(146, 43, 33, 0.16);
+          overflow: hidden;
+          position: relative;
+          z-index: 1;
+        }
 
-      {/* 🔸 PASSWORD INPUT */}
-      <input
-        type="password"
-        placeholder="Enter Password"
+        .login-brand-panel {
+          background:
+            linear-gradient(135deg, rgba(123, 36, 28, 0.96), rgba(192, 57, 43, 0.96)),
+            radial-gradient(circle at 70% 18%, rgba(255,255,255,0.18), transparent 18rem);
+          padding: 40px;
+          color: #fff;
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
 
-        value={password}
+        .login-brand-panel::before {
+          content: 'ॐ';
+          position: absolute;
+          right: -26px;
+          bottom: -42px;
+          font-family: 'Yatra One', serif;
+          font-size: 230px;
+          color: rgba(255,255,255,0.07);
+          line-height: 1;
+        }
 
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        .brand-top {
+          position: relative;
+          z-index: 1;
+        }
 
-      <br /><br />
+        .brand-logo {
+          width: 62px;
+          height: 62px;
+          border-radius: 18px;
+          background: #fff;
+          color: var(--red-dark);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+          margin-bottom: 22px;
+        }
 
-      {/* 🔸 LOGIN BUTTON */}
-      <button onClick={handleLogin}>
-        Login
-      </button>
+        .brand-om {
+          font-family: 'Yatra One', serif;
+          font-size: 30px;
+          line-height: 1;
+        }
 
-    </div>
+        .brand-mini {
+          font-family: 'Poppins', sans-serif;
+          font-size: 6.5px;
+          font-weight: 800;
+          letter-spacing: 0.4px;
+        }
+
+        .brand-name {
+          font-family: 'Poppins', sans-serif;
+          font-size: clamp(1.45rem, 3vw, 2.2rem);
+          line-height: 1.14;
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          max-width: 410px;
+        }
+
+        .brand-tagline {
+          margin-top: 14px;
+          color: rgba(255,255,255,0.78);
+          font-size: 0.95rem;
+          line-height: 1.7;
+          max-width: 390px;
+        }
+
+        .brand-highlights {
+          position: relative;
+          z-index: 1;
+          display: grid;
+          gap: 12px;
+        }
+
+        .highlight-card {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 13px 14px;
+          border-radius: 15px;
+          background: rgba(255,255,255,0.13);
+          border: 1px solid rgba(255,255,255,0.22);
+          backdrop-filter: blur(12px);
+        }
+
+        .highlight-icon {
+          width: 38px;
+          height: 38px;
+          border-radius: 12px;
+          background: rgba(255,255,255,0.18);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+          flex-shrink: 0;
+        }
+
+        .highlight-title {
+          font-family: 'Poppins', sans-serif;
+          font-size: 13px;
+          font-weight: 800;
+        }
+
+        .highlight-text {
+          font-size: 11.5px;
+          color: rgba(255,255,255,0.72);
+          margin-top: 2px;
+        }
+
+        .login-form-panel {
+          padding: 44px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          background:
+            linear-gradient(180deg, #fff 0%, #fff8f8 100%);
+        }
+
+        .form-kicker {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          width: fit-content;
+          padding: 6px 12px;
+          border-radius: 99px;
+          background: var(--red-light);
+          color: var(--red-dark);
+          font-size: 12px;
+          font-weight: 800;
+          margin-bottom: 16px;
+        }
+
+        .form-title {
+          font-family: 'Poppins', sans-serif;
+          font-size: clamp(1.8rem, 4vw, 2.45rem);
+          font-weight: 800;
+          letter-spacing: -0.05em;
+          color: var(--text);
+          line-height: 1.08;
+          margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+          color: var(--muted);
+          font-size: 14px;
+          line-height: 1.6;
+          margin-bottom: 28px;
+        }
+
+        .login-form {
+          display: grid;
+          gap: 16px;
+        }
+
+        .field {
+          display: grid;
+          gap: 7px;
+        }
+
+        .field label {
+          font-size: 13px;
+          font-weight: 800;
+          color: var(--text);
+        }
+
+        .input-wrap {
+          height: 50px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          border: 1.5px solid var(--border);
+          border-radius: 14px;
+          background: #fff;
+          padding: 0 14px;
+          transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+        }
+
+        .input-wrap:focus-within {
+          border-color: var(--red);
+          box-shadow: 0 0 0 4px rgba(192, 57, 43, 0.09);
+          background: #fff;
+        }
+
+        .input-icon {
+          color: var(--red);
+          font-size: 16px;
+          width: 20px;
+          text-align: center;
+        }
+
+        .input-wrap input {
+          width: 100%;
+          border: 0;
+          outline: 0;
+          background: transparent;
+          font-family: 'Nunito', sans-serif;
+          color: var(--text);
+          font-size: 14.5px;
+          font-weight: 700;
+        }
+
+        .input-wrap input::placeholder {
+          color: #c0908e;
+          font-weight: 600;
+        }
+
+        .form-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-top: 2px;
+          font-size: 12.5px;
+        }
+
+        .remember {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          color: var(--muted);
+          font-weight: 700;
+        }
+
+        .remember input {
+          accent-color: var(--red);
+        }
+
+        .forgot-link {
+          color: var(--red);
+          font-weight: 800;
+          text-decoration: none;
+          cursor: pointer;
+        }
+
+        .forgot-link:hover {
+          text-decoration: underline;
+        }
+
+        .login-btn {
+          height: 52px;
+          border: 0;
+          border-radius: 15px;
+          margin-top: 10px;
+          background: linear-gradient(135deg, var(--red-dark), var(--red-mid));
+          color: #fff;
+          font-family: 'Poppins', sans-serif;
+          font-size: 15px;
+          font-weight: 800;
+          cursor: pointer;
+          box-shadow: 0 12px 28px rgba(192, 57, 43, 0.22);
+          transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+        }
+
+        .login-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 16px 36px rgba(192, 57, 43, 0.28);
+        }
+
+        .login-btn:active {
+          transform: translateY(0);
+          opacity: 0.9;
+        }
+
+        .secure-note {
+          margin-top: 20px;
+          padding: 13px 14px;
+          border-radius: 14px;
+          background: var(--red-light);
+          color: var(--muted);
+          font-size: 12.5px;
+          line-height: 1.5;
+          font-weight: 700;
+          border: 1px solid var(--red-soft);
+        }
+
+        .secure-note strong {
+          color: var(--red-dark);
+        }
+
+        @media (max-width: 860px) {
+          .login-shell {
+            grid-template-columns: 1fr;
+          }
+
+          .login-brand-panel {
+            min-height: 310px;
+          }
+
+          .brand-highlights {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .login-page {
+            padding: 14px;
+            align-items: flex-start;
+          }
+
+          .login-shell {
+            border-radius: 22px;
+          }
+
+          .login-brand-panel,
+          .login-form-panel {
+            padding: 26px;
+          }
+
+          .brand-name {
+            font-size: 1.45rem;
+          }
+
+          .form-row {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+        }
+      `}</style>
+
+      <div className="login-page">
+        <div className="login-shell">
+          <section className="login-brand-panel">
+            <div className="brand-top">
+              <div className="brand-logo">
+                <div className="brand-om">ॐ</div>
+                <div className="brand-mini">GURUKRUPA</div>
+              </div>
+
+              <h1 className="brand-name">
+                GURUKRUPA PLACEMENT & EDUCATION SOLUTIONS
+              </h1>
+
+              <p className="brand-tagline">
+                An International Brand · For Serving The People & By The People
+              </p>
+            </div>
+
+            <div className="brand-highlights">
+              <div className="highlight-card">
+                <div className="highlight-icon">🎯</div>
+                <div>
+                  <div className="highlight-title">Placement Training</div>
+                  <div className="highlight-text">
+                    Resume, interviews, communication and career guidance.
+                  </div>
+                </div>
+              </div>
+
+              <div className="highlight-card">
+                <div className="highlight-icon">🌐</div>
+                <div>
+                  <div className="highlight-title">Education Abroad</div>
+                  <div className="highlight-text">
+                    IELTS, visa support, university selection and counselling.
+                  </div>
+                </div>
+              </div>
+
+              <div className="highlight-card">
+                <div className="highlight-icon">🏆</div>
+                <div>
+                  <div className="highlight-title">Skill-Based Learning</div>
+                  <div className="highlight-text">
+                    Practical courses for professional growth and confidence.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="login-form-panel">
+            <div className="form-kicker">🔐 Student Portal</div>
+
+            <h2 className="form-title">Welcome Back</h2>
+
+            <p className="form-subtitle">
+              Login to continue your courses, track your progress, and stay ahead
+              in your learning journey.
+            </p>
+
+            <div className="login-form">
+              <div className="field">
+                <label>Email Address</label>
+                <div className="input-wrap">
+                  <span className="input-icon">✉️</span>
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="field">
+                <label>Password</label>
+                <div className="input-wrap">
+                  <span className="input-icon">🔑</span>
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleLogin();
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <label className="remember">
+                  <input type="checkbox" />
+                  Remember me
+                </label>
+
+                <span className="forgot-link">Forgot password?</span>
+              </div>
+
+              <button className="login-btn" onClick={handleLogin}>
+                Login to Dashboard →
+              </button>
+            </div>
+
+            <div className="secure-note">
+              <strong>Secure student access.</strong> Your learning progress,
+              certificates, rankings and enrolled courses are available after login.
+            </div>
+          </section>
+        </div>
+      </div>
+    </>
   );
 }
 
-// 🔹 Exporting component so it can be used in App.js
 export default Login;
