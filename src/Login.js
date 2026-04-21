@@ -16,51 +16,27 @@ function Login() {
 
   // 🔹 LOGIN FUNCTION (MAIN LOGIC)
   // async because we are calling an API (fetch)
-  const handleLogin = async () => {
+const handleLogin = async () => {
+  const response = await fetch("https://www.gurukrupaeducation.com/api/student-login.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email, password })
+  });
 
-    try {
-      // 🔸 Sending request to backend (PHP API)
-      const response = await fetch(
-        "https://www.gurukrupaeducation.com/api/student-login.php",
-        {
-          method: "POST", // We are sending data → POST request
+  const data = await response.json();
 
-          headers: {
-            // Telling server: "I am sending JSON data"
-            "Content-Type": "application/json"
-          },
+  if (data.success) {
+    // ✅ Save user
+    localStorage.setItem("user", JSON.stringify(data));
 
-          // 🔸 Converting JS object → JSON string
-          body: JSON.stringify({
-            email: email,       // sending email
-            password: password  // sending password
-          })
-        }
-      );
-
-      // 🔸 Converting response (JSON) → JavaScript object
-      const data = await response.json();
-
-      // 🔸 Checking response from backend
-      if (data.success) {
-        // If login successful
-        alert("Login successful ✅");
-
-        // Printing full response in console (for debugging)
-        console.log(data);
-
-      } else {
-        // If login failed (wrong email/password)
-        alert(data.message);
-      }
-
-    } catch (error) {
-      // 🔸 If API fails (network/server error)
-      console.error("Error:", error);
-      alert("Something went wrong");
-    }
-  };
-
+    // ✅ Redirect
+    window.location.href = "/dashboard";
+  } else {
+    alert(data.message);
+  }
+};
 
   // 🔹 UI SECTION (WHAT USER SEES)
   return (
