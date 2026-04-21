@@ -1,11 +1,14 @@
 import Login from "./Login";
-
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import Dashboard from "./Dashboard";
 function App() {
   return (
-    <div>
-      <h1>LMS Login</h1>
-      <Login />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
   );
 }
 
