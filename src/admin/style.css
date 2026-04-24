@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Yatra+One&family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700&display=swap');
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* COLORS */
+:root {
+  --red: #ff3b3b;
+  --red-dark: #ff1a1a;
+  --red-light: #ffe5e5;
+  --red-mid: #ff4d4d;
+  --red-soft: #ffd6d6;
+
+  --white: #ffffff;
+  --off-white: #fffafa;
+  --border: #ffcaca;
+
+  --text: #1f2937;
+  --muted: #6b7280;
+  --bg: #fffafa;
+}
+
+/* PAGE */
+.admin-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+}
+
+/* ================= SIDEBAR ================= */
+
+.admin-sidebar {
+  width: 78px;
+  height: 100vh;
+  background: linear-gradient(180deg, var(--red), var(--red-dark));
+  padding: 20px 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  box-shadow: 4px 0 18px rgba(255, 59, 59, 0.25);
+}
+
+/* REMOVE OLD LOGO */
+.sb-logo {
+  display: none;
+}
+
+/* MENU ITEM */
+.sb-item {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  text-decoration: none;
+
+  transition: all 0.2s ease;
+}
+
+/* ICON */
+.icon {
+  font-size: 20px;
+  color: #fff;
+  transition: 0.2s;
+}
+
+/* HOVER */
+.sb-item:hover::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  width: 3px;
+  height: 26px;
+  background: #fff;
+  border-radius: 3px;
+}
+
+.sb-item:hover .icon {
+  transform: scale(1.1);
+}
+
+/* ACTIVE */
+.sb-item.active {
+  background: #fff;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.sb-item.active .icon {
+  color: var(--red);
+}
+
+/* TOOLTIP */
+.tooltip {
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  background: #111;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s;
+  z-index: 9999;
+}
+
+.sb-item:hover .tooltip {
+  opacity: 1;
+  left: 80px;
+}
+
+/* ================= MAIN ================= */
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* TOPBAR */
+.topbar {
+  height: 68px;
+  background: #fff;
+  border-bottom: 2px solid var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* BRAND */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-om {
+  font-family: 'Yatra One', serif;
+  font-size: 28px;
+  color: var(--red);
+}
+
+.brand-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--red-dark);
+}
+
+.brand-sub {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* ADMIN CHIP */
+.admin-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--off-white);
+  padding: 6px 12px 6px 6px;
+  border-radius: 13px;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+/* CONTENT */
+.content {
+  padding: 28px;
+}
+
+/* CARDS */
+.panel {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 22px;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  color: #fff;
+  border-radius: 24px;
+  padding: 30px;
+  margin-bottom: 22px;
+}
+
+/* BUTTONS */
+.add-btn,
+.update-btn {
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  height: 50px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.add-btn:hover,
+.update-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 680px) {
+  .admin-page {
+    display: block;
+  }
+
+  .admin-sidebar {
+    display: none;
+  }
+
+  .content {
+    padding: 16px;
+  }
+}
+
+

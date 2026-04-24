@@ -20,7 +20,7 @@ function Login() {
 
     if (data.success) {
       localStorage.setItem("user", JSON.stringify(data));
-      window.location.href = "/dashboard";
+      window.location.href = "/student/dashboard";
     } else {
       alert(data.message);
     }
